@@ -34,5 +34,4 @@ echo export SPARK_DIST_CLASSPATH=$(hadoop classpath) >> ~/.profile
 source ~/.profile
 
 # Start spark
-touch log.txt
-start-master.sh
+start-master.sh 2> log.txt

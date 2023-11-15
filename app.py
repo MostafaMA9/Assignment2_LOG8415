@@ -45,17 +45,29 @@ print("Instance is running")
 
 # Get instance public IP
 response = EC2.describe_instances(InstanceIds=[instance_id])
-public_ip = response['Reservations'][0]['Instances'][0]['PublicIpAddress']
+public_dns = response['Reservations'][0]['Instances'][0]['PublicDnsName']
 
 # Wait for Spark Master UI to be reachable
 print("Waiting for Spark Master UI to be reachable...")
 while True:
     try:
-        subprocess.check_output(["curl", f"{public_ip}:8080"], stderr=subprocess.STDOUT)
+        subprocess.check_output(["curl", f"{public_dns}:8080"], stderr=subprocess.STDOUT)
         break
     except subprocess.CalledProcessError:
         time.sleep(30)
-print("Spark Master UI is reachable at http://" + public_ip + ":8080")
+print("Spark Master UI is reachable at http://" + public_dns + ":8080")
+
+print("Running hadoop and linux wordcount...")
+os.system("ssh -o StrictHostKeyChecking=no -i " + keyPairName + ".pem ubuntu@" + public_dns + " 'bash -s' < ./hadoop_linux_wordcount.sh")
+time.sleep(30)
+os.system("scp -o StrictHostKeyChecking=no -r -i " + keyPairName + ".pem ubuntu@" + public_dns + ":~/results ./results_hadoop_linux")
+print("Results saved in ./results_hadoop_linux")
+
+print("Running hadoop and spark wordcount...")
+os.system("ssh -o StrictHostKeyChecking=no -i " + keyPairName + ".pem ubuntu@" + public_dns + " 'bash -s' < ./hadoop_spark_wordcount.sh")
+time.sleep(30)
+os.system("scp -o StrictHostKeyChecking=no -r -i " + keyPairName + ".pem ubuntu@" + public_dns + ":~/results ./results_hadoop_spark")
+print("Results saved in ./results_hadoop_spark")
 
 input("Press Enter to delete everything...")
 
