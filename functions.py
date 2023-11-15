@@ -34,7 +34,7 @@ def create_m4large_instance(client, keyPair, securityGroupId, subnetId):
 def terminate_instance(client, instanceId):
     print('terminating instance:')
     print(instanceId)
-    client.terminate_instances(InstanceIds=(instanceId))
+    client.terminate_instances(InstanceIds=([instanceId]))
 
 # KEY PAIR
 
@@ -69,7 +69,7 @@ def delete_key_pair(ec2_client,  key_pair_name):
 def create_security_group(ec2_client, security_group_name, vpc_id):
     try:
         security_group = ec2_client.create_security_group(
-            Description='FlaskApp Security Group',
+            Description='LOG8415 Security Group',
             GroupName=security_group_name,
             VpcId=vpc_id
         )
@@ -79,7 +79,7 @@ def create_security_group(ec2_client, security_group_name, vpc_id):
         )
         security_group_id = response['SecurityGroups'][0]['GroupId']
 
-        # Add inbound rules to allow SSH (port 22) and HTTP (port 80) traffic
+        # Add inbound rules to allow SSH (port 22) and Spark Master Web UI (port 8080) traffic
         ec2_client.authorize_security_group_ingress(
             GroupId=security_group_id,
             IpPermissions=[
@@ -87,14 +87,14 @@ def create_security_group(ec2_client, security_group_name, vpc_id):
                     'IpProtocol': 'tcp',
                     'FromPort': 22,  # SSH port
                     'ToPort': 22,    # SSH port
-                    'IpRanges': [{'CidrIp': '0.0.0.0/0'}]  # Allow SSH from any IP
+                    'IpRanges': [{'CidrIp': '0.0.0.0/0'}]  # Allow Spark from any IP
                 },
                 {
                     'IpProtocol': 'tcp',
-                    'FromPort': 80,  # HTTP port
-                    'ToPort': 80,    # HTTP port
-                    'IpRanges': [{'CidrIp': '0.0.0.0/0'}]  # Allow HTTP from any IP
-                }
+                    'FromPort': 8080,  # Spark Master port
+                    'ToPort': 8080,    # Spark Master port
+                    'IpRanges': [{'CidrIp': '0.0.0.0/0'}]  
+                },          
             ]
         )
 
