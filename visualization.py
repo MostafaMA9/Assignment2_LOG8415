@@ -73,23 +73,21 @@ def show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, leg
 
 
 
+def main() :
+    filename1 = 'results_hadoop_linux/hadoop_wordcount_time.txt'
+    dataset_names1,  dataset_real_results1=  read_linux_hadoop_file(filename1)
+
+    filename2 = 'results_hadoop_linux/linux_wordcount_time.txt'
+    dataset_names2,  dataset_real_results2 =  read_linux_hadoop_file(filename2)
+
+    show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, "Hadoop" , "Linux")
 
 
 
-filename1 = 'results_hadoop_linux/hadoop_wordcount_time.txt'
-dataset_names1,  dataset_real_results1=  read_linux_hadoop_file(filename1)
+    filename1 = 'results_hadoop_spark/hadoop_wordcount_time.txt'
+    dataset_names1,  dataset_real_results1=  read_hadoop_spark_file(filename1)
 
-filename2 = 'results_hadoop_linux/linux_wordcount_time.txt'
-dataset_names2,  dataset_real_results2 =  read_linux_hadoop_file(filename2)
+    filename2 = 'results_hadoop_spark/spark_wordcount_time.txt'
+    dataset_names2,  dataset_real_results2 =  read_hadoop_spark_file(filename2)
 
-show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, "Hadoop" , "Linux")
-
-
-
-filename1 = 'results_hadoop_spark/hadoop_wordcount_time.txt'
-dataset_names1,  dataset_real_results1=  read_hadoop_spark_file(filename1)
-
-filename2 = 'results_hadoop_spark/spark_wordcount_time.txt'
-dataset_names2,  dataset_real_results2 =  read_hadoop_spark_file(filename2)
-
-show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, "Hadoop" , "Spark")
+    show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, "Hadoop" , "Spark")

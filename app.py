@@ -73,7 +73,9 @@ os.system("scp -o StrictHostKeyChecking=no -r -i " + keyPairName + ".pem ubuntu@
 print("Results saved in ./results_hadoop_spark")
 time.sleep(5)
 
-visualization
+os.system("mkdir -p visualization")
+
+visualization.main()
 
 input("Press Enter to delete everything...")
 
