@@ -2,7 +2,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 class Dataset:
 
     def __init__(self, name, real, user, sys ):
@@ -23,8 +22,6 @@ def read_linux_hadoop_file(filename):
         dataset_names = [name]
         dataset_real_results = [real]
     return dataset_names, dataset_real_results
-    
-
 
 def read_hadoop_spark_file(filename):
     file = open(filename, 'r')
@@ -37,8 +34,6 @@ def read_hadoop_spark_file(filename):
         new_Dataset = Dataset(name, real, user, sys)
         results_list.append(new_Dataset)
     
-
-    # print(results_list)
     results_Ave_dic = {}
     for datasetObj in results_list:
         if datasetObj.name in results_Ave_dic:
@@ -55,8 +50,6 @@ def read_hadoop_spark_file(filename):
         dataset_names.append(key)
         dataset_real_results.append(results_Ave_dic[key])
 
-
-
     return dataset_names, dataset_real_results
 
 def show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, legend_name1, legend_name2):
@@ -67,27 +60,22 @@ def show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, leg
     plt.xticks(x, dataset_names1, rotation=90)
     plt.ylabel("seconds")
     plt.legend([legend_name1 , legend_name2])
-    # plt.show()
     plt.savefig("visualization/"+legend_name1+"_"+legend_name2+".png")
     plt.clf()
 
-
-
 def main() :
     filename1 = 'results_hadoop_linux/hadoop_wordcount_time.txt'
-    dataset_names1,  dataset_real_results1=  read_linux_hadoop_file(filename1)
+    dataset_names1, dataset_real_results1=  read_linux_hadoop_file(filename1)
 
     filename2 = 'results_hadoop_linux/linux_wordcount_time.txt'
-    dataset_names2,  dataset_real_results2 =  read_linux_hadoop_file(filename2)
+    _, dataset_real_results2 =  read_linux_hadoop_file(filename2)
 
     show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, "Hadoop" , "Linux")
 
-
-
     filename1 = 'results_hadoop_spark/hadoop_wordcount_time.txt'
-    dataset_names1,  dataset_real_results1=  read_hadoop_spark_file(filename1)
+    dataset_names1, dataset_real_results1=  read_hadoop_spark_file(filename1)
 
     filename2 = 'results_hadoop_spark/spark_wordcount_time.txt'
-    dataset_names2,  dataset_real_results2 =  read_hadoop_spark_file(filename2)
+    _, dataset_real_results2 =  read_hadoop_spark_file(filename2)
 
     show_plot(dataset_names1, dataset_real_results1 , dataset_real_results2, "Hadoop" , "Spark")
