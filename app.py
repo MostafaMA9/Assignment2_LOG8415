@@ -4,6 +4,7 @@ import time
 import os
 from dotenv import load_dotenv
 from functions import *
+import visualization
 
 # Load AWS credentials from credentials.env
 load_dotenv("credentials.env")
@@ -70,6 +71,9 @@ os.system("ssh -o StrictHostKeyChecking=no -i " + keyPairName + ".pem ubuntu@" +
 time.sleep(30)
 os.system("scp -o StrictHostKeyChecking=no -r -i " + keyPairName + ".pem ubuntu@" + public_dns + ":~/results/* ./results_hadoop_spark")
 print("Results saved in ./results_hadoop_spark")
+time.sleep(5)
+
+visualization
 
 input("Press Enter to delete everything...")
 
