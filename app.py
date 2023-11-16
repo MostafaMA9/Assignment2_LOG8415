@@ -57,6 +57,8 @@ while True:
         time.sleep(30)
 print("Spark Master UI is reachable at http://" + public_dns + ":8080")
 
+os.system("chmod 700 " + keyPairName + ".pem")
+
 print("Running hadoop and linux wordcount...")
 os.system("ssh -o StrictHostKeyChecking=no -i " + keyPairName + ".pem ubuntu@" + public_dns + " 'bash -s' < ./hadoop_linux_wordcount.sh")
 time.sleep(30)
