@@ -77,6 +77,17 @@ os.system("mkdir -p visualization")
 
 visualization.main()
 
+print("Running friend recommendation mapreduce...")
+os.system("scp -o StrictHostKeyChecking=no -r -i " + keyPairName + ".pem ./mapper.py ubuntu@" + public_dns + ":~/")
+os.system("scp -o StrictHostKeyChecking=no -r -i " + keyPairName + ".pem ./reducer.py ubuntu@" + public_dns + ":~/")
+os.system("scp -o StrictHostKeyChecking=no -r -i " + keyPairName + ".pem ./soc-LiveJournal1Adj.txt ubuntu@" + public_dns + ":~/")
+time.sleep(5)
+os.system("ssh -o StrictHostKeyChecking=no -i " + keyPairName + ".pem ubuntu@" + public_dns + " 'bash -s' < ./mapreduce.sh")
+time.sleep(30)
+os.system("scp -o StrictHostKeyChecking=no -r -i " + keyPairName + ".pem ubuntu@" + public_dns + ":~/results/* ./results_mapreduce")
+print("Results saved in ./results_mapreduce")
+time.sleep(5)
+
 input("Press Enter to delete everything...")
 
 print("Terminating instance...")
