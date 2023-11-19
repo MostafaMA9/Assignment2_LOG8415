@@ -17,6 +17,8 @@ maxFriend = 10
 for line in sys.stdin:
     line = line.strip()
     data = line.split('\t')
+    if len(data) != 2:
+        continue
     friends = data[1].strip("][").replace("'", "").split(', ')
     if not(len(friends)== 1 and friends[0] == ''):
                 friends = list(map(int, friends))

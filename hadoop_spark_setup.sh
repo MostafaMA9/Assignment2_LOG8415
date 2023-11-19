@@ -2,8 +2,9 @@
 
 apt-get update
 apt-get -y upgrade
-apt install openjdk-8-jdk -y scala python3-pip -y
+apt install openjdk-8-jdk -y scala python3 python3-pip -y
 pip3 install --no-cache-dir pyspark
+sudo ln -s /usr/bin/python3 /usr/bin/python
 
 ping -c 5 dlcdn.apache.org 2>> log.txt
 nslookup dlcdn.apache.org 2>> log.txt
